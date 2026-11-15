@@ -93,6 +93,28 @@ footer{background:var(--mist);padding:28px 0;color:#62727b;font-size:14px;text-a
 .sp-t i{display:inline-block;width:3px;height:.9em;background:var(--cyan);margin-inline-start:3px;vertical-align:-.1em;animation:blink .7s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 @media(prefers-reduced-motion:reduce){#splash{display:none}}
+
+.tools{display:block;padding:14px 0 8px;margin-bottom:10px;border-bottom:1px solid var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;flex:none}
+.chip{min-height:40px;padding:4px 18px;white-space:nowrap}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}
+.meta .count{padding:0}
+.sortl{display:flex;align-items:center;gap:8px;font-size:14px;color:#62727b}
+select{min-height:40px;padding:6px 12px;font-size:15px}
+@media(max-width:700px){
+.tools{position:sticky;top:68px;z-index:15;background:#fff;margin-bottom:14px;padding-top:10px}
+.chips{flex-wrap:nowrap;overflow-x:auto;margin:0 -20px;padding:2px 20px 4px;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;scroll-snap-align:center}
+}
+
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:var(--slate);color:#fff;border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:12px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:35;width:max-content;max-width:calc(100% - 32px);box-shadow:0 8px 24px rgba(39,51,58,.3)}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast .ok{color:var(--cyan);font-weight:700;font-size:18px}
+.toast button{background:var(--cyan);color:#fff;border:0;border-radius:8px;padding:5px 12px;cursor:pointer;font-weight:500;white-space:nowrap}
+.cartbtn b.bump{animation:bump .4s}
+@keyframes bump{40%{transform:scale(1.5)}}
+.add.done{background:var(--slate)}
 </style>
 </head>
 <body>
@@ -111,7 +133,7 @@ footer{background:var(--mist);padding:28px 0;color:#62727b;font-size:14px;text-a
     <img src="lajneh-store-logo.svg" alt="Lajneh Store">
   </a>
   <span class="grow"></span>
-  <button class="cartbtn" id="openCart"><span>السلة</span><b id="cnt">0</b></button>
+  <button class="cartbtn" id="openCart" aria-label="السلة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h8.1a2 2 0 0 0 2-1.5L21 8H6"/></svg><span>السلة</span><b id="cnt">0</b></button>
 </div></header>
 
 <section class="hero"><div class="wrap">
@@ -124,13 +146,18 @@ footer{background:var(--mist);padding:28px 0;color:#62727b;font-size:14px;text-a
 <main class="wrap">
   <div class="tools">
     <div class="chips" id="chips" role="group" aria-label="التصنيفات"></div>
-    <select id="sort" aria-label="الترتيب"><option value="">الأحدث</option><option value="asc">السعر: الأقل أولاً</option><option value="desc">السعر: الأعلى أولاً</option></select>
+    <div class="meta">
+      <div class="count" id="count" role="status"></div>
+      <label class="sortl">الترتيب
+        <select id="sort"><option value="">الأحدث</option><option value="asc">السعر: الأقل أولاً</option><option value="desc">السعر: الأعلى أولاً</option></select>
+      </label>
+    </div>
   </div>
-  <div class="count" id="count"></div>
   <div class="grid" id="grid"></div>
 </main>
 <footer>© Lajneh Store · لجنة الطب والجراحة</footer>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="scrim" id="scrim"></div>
 <aside id="cart" aria-label="السلة" aria-hidden="true">
   <header><h2>سلتك</h2><button class="x" id="closeCart" aria-label="إغلاق">×</button></header>
@@ -198,10 +225,22 @@ function renderCart(){
     <div class="qty"><button data-d="-1" data-id="${p.id}" aria-label="إنقاص">−</button><span>${q}</span><button data-d="1" data-id="${p.id}" aria-label="زيادة">+</button></div></div>`).join("")
     :`<p class="empty" style="padding:40px 0">سلتك فارغة. أضف منتجاً لتبدأ.</p>`;
 }
-function toggle(o){$("#cart").classList.toggle("open",o);$("#scrim").classList.toggle("open",o);$("#cart").setAttribute("aria-hidden",!o)}
-$("#chips").onclick=e=>{const c=e.target.dataset.c;if(c){cat=c;renderChips();render()}};
+function toggle(o){if(o)$("#toast").classList.remove("show");$("#cart").classList.toggle("open",o);$("#scrim").classList.toggle("open",o);$("#cart").setAttribute("aria-hidden",!o)}
+$("#chips").onclick=e=>{const c=e.target.dataset.c;if(c){cat=c;renderChips();render();const a=document.querySelector("#chips [aria-pressed=true]");if(a)a.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"})}};
 $("#q").oninput=render;$("#sort").onchange=render;
-$("#grid").onclick=e=>{const id=e.target.dataset.id;if(id){cart[id]=(cart[id]||0)+1;save();toggle(true)}};
+let tt;
+function toast(html){const t=$("#toast");t.innerHTML=html;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),3000)}
+$("#toast").onclick=e=>{if(e.target.id==="toastCart")toggle(true)};
+$("#grid").onclick=e=>{
+  const btn=e.target.closest(".add");if(!btn||btn.disabled)return;
+  const id=btn.dataset.id,p=products.find(x=>x.id==id);if(!p)return;
+  if((cart[id]||0)>=p.stock){toast(`<span>وصلت للحد الأقصى المتاح من ${esc(p.name)}</span>`);return}
+  cart[id]=(cart[id]||0)+1;save();
+  const b=$("#cnt");b.classList.remove("bump");void b.offsetWidth;b.classList.add("bump");
+  btn.textContent="✓ تمت الإضافة";btn.classList.add("done");
+  setTimeout(()=>{btn.textContent="أضف للسلة";btn.classList.remove("done")},1200);
+  toast(`<span class="ok">✓</span><span>${esc(p.name)}: تمت الإضافة للسلة</span><button id="toastCart">عرض السلة</button>`);
+};
 $("#items").onclick=e=>{const id=e.target.dataset.id,d=+e.target.dataset.d;if(id){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];save()}};
 $("#openCart").onclick=()=>toggle(true);$("#closeCart").onclick=$("#scrim").onclick=()=>toggle(false);
 document.onkeydown=e=>{if(e.key==="Escape")toggle(false)};
