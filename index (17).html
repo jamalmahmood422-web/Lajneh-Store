@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lajneh Store | متجر لجنة الطب والجراحة</title>
+<link rel="icon" href="assets/lajneh-store-logo.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
+<style>
+:root{--cyan:#00AEEF;--cyan-d:#0089bd;--slate:#43525C;--ink:#27333a;--ash:#B3B3B3;--mist:#F2F7FA;--line:#dfe8ed;--r:14px}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font:400 16px/1.7 "IBM Plex Sans Arabic",Tahoma,sans-serif;color:var(--ink);background:#fff}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:1120px;margin:auto;padding:0 20px}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:16px;height:68px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand img:first-child{height:38px}
+.brand .div{width:1px;height:30px;background:var(--line)}
+.brand img:last-child{height:44px}
+.grow{flex:1}
+.cartbtn{display:flex;align-items:center;gap:8px;background:var(--slate);color:#fff;border:0;border-radius:99px;padding:8px 18px;cursor:pointer;font-weight:500}
+.cartbtn b{background:var(--cyan);border-radius:99px;min-width:24px;text-align:center;padding:0 6px;font-size:14px}
+.hero{background:var(--slate);color:#fff;padding:56px 0 0;overflow:hidden}
+.hero h1{font-size:clamp(28px,5vw,46px);line-height:1.35;font-weight:700;max-width:640px}
+.hero p{color:#cfdbe2;margin:12px 0 26px;max-width:520px}
+.search{display:flex;background:#fff;border-radius:99px;padding:5px;max-width:560px}
+.search input{flex:1;border:0;background:none;padding:10px 18px;color:var(--ink);min-width:0}
+.search input:focus{outline:none}
+.search:focus-within{box-shadow:0 0 0 3px var(--cyan)}
+.search span{display:grid;place-items:center;width:44px;color:var(--slate)}
+.pulse{display:block;width:100%;height:70px;margin-top:20px}
+.pulse path{fill:none;stroke:var(--cyan);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1600;stroke-dashoffset:1600;animation:draw 2.4s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:22px 0 8px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 16px;cursor:pointer;transition:background .15s,color .15s}
+.chip:hover{border-color:var(--cyan)}
+.chip[aria-pressed=true]{background:var(--cyan);border-color:var(--cyan);color:#fff;font-weight:500}
+select{border:1px solid var(--line);border-radius:10px;padding:6px 10px;background:#fff}
+.count{color:#6b7a83;font-size:14px;padding-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;padding-bottom:56px}
+.card{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;background:#fff;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(67,82,92,.12)}
+.thumb{aspect-ratio:4/3;background:var(--mist);display:grid;place-items:center;font-size:54px;position:relative}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.tag{position:absolute;top:10px;right:10px;background:#fff;border-radius:99px;font-size:12px;padding:0 10px;color:var(--slate)}
+.body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
+.body h3{font-size:17px;font-weight:700}
+.body p{font-size:14px;color:#62727b;flex:1}
+.row{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.price{font-weight:700;color:var(--slate);font-size:18px}
+.add{background:var(--cyan);color:#fff;border:0;border-radius:10px;padding:7px 14px;cursor:pointer;font-weight:500}
+.add:hover{background:var(--cyan-d)}
+.add:disabled{background:var(--ash);cursor:not-allowed}
+.empty{grid-column:1/-1;text-align:center;padding:60px 0;color:#6b7a83}
+aside{position:fixed;inset:0 auto 0 0;width:min(400px,100%);background:#fff;z-index:40;transform:translateX(-105%);transition:transform .25s;display:flex;flex-direction:column;box-shadow:8px 0 30px rgba(0,0,0,.15)}
+aside.open{transform:none}
+.scrim{position:fixed;inset:0;background:rgba(39,51,58,.45);z-index:30;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.open{opacity:1;pointer-events:auto}
+aside header{position:static;display:flex;justify-content:space-between;align-items:center;padding:16px 20px}
+aside h2{font-size:20px}
+.x{background:none;border:0;font-size:26px;cursor:pointer;line-height:1}
+.items{flex:1;overflow:auto;padding:8px 20px}
+.it{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.it div:first-child{flex:1}
+.it small{color:#6b7a83}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.foot{padding:16px 20px;border-top:1px solid var(--line);display:grid;gap:10px;background:var(--mist)}
+.foot input{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:#fff}
+.tot{display:flex;justify-content:space-between;font-weight:700}
+.send{background:var(--slate);color:#fff;border:0;border-radius:10px;padding:11px;cursor:pointer;font-weight:700}
+.send:hover{background:var(--ink)}
+.msg{font-size:14px;min-height:20px}
+footer{background:var(--mist);padding:28px 0;color:#62727b;font-size:14px;text-align:center}
+@media(max-width:560px){.brand img:first-child{height:30px}.brand img:last-child{height:36px}.cartbtn span{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pulse path{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="brand" href="./" aria-label="Lajneh Store">
+    <img src="assets/team-logo.png" alt="شعار لجنة الطب والجراحة"><span class="div"></span>
+    <img src="assets/lajneh-store-logo.svg" alt="Lajneh Store">
+  </a>
+  <span class="grow"></span>
+  <button class="cartbtn" id="openCart"><span>السلة</span><b id="cnt">0</b></button>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <h1>أدواتك الطبية، من طلاب الطب إلى طلاب الطب</h1>
+  <p>سماعات وأدوات جراحية وتشخيصية بأسعار مناسبة للطلاب، من متجر لجنة الطب والجراحة.</p>
+  <label class="search"><input id="q" type="search" placeholder="ابحث عن سماعة، مطرقة، معطف…" aria-label="بحث"><span aria-hidden="true">⌕</span></label>
+  <svg class="pulse" viewBox="0 0 1200 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40H430l30-28 40 56 34-28h700"/></svg>
+</div></section>
+
+<main class="wrap">
+  <div class="tools">
+    <div class="chips" id="chips" role="group" aria-label="التصنيفات"></div>
+    <select id="sort" aria-label="الترتيب"><option value="">الأحدث</option><option value="asc">السعر: الأقل أولاً</option><option value="desc">السعر: الأعلى أولاً</option></select>
+  </div>
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+</main>
+<footer>© Lajneh Store · لجنة الطب والجراحة</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside id="cart" aria-label="السلة" aria-hidden="true">
+  <header><h2>سلتك</h2><button class="x" id="closeCart" aria-label="إغلاق">×</button></header>
+  <div class="items" id="items"></div>
+  <form class="foot" id="order">
+    <div class="tot"><span>المجموع</span><span id="total">0 د.أ</span></div>
+    <input name="name" placeholder="الاسم" required autocomplete="name">
+    <input name="phone" placeholder="رقم الهاتف" required type="tel" autocomplete="tel">
+    <button class="send" type="submit">إرسال الطلب</button>
+    <div class="msg" id="msg" role="status"></div>
+  </form>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+// 1) ضع بيانات مشروعك من Supabase > Project Settings > API (المفتاح anon فقط)
+const SUPABASE_URL = "";
+const SUPABASE_ANON_KEY = "";
+
+const DEMO = [
+ {id:1,name:"سماعة طبية Classic",description:"غشاء مزدوج للفحص السريري",price:18,category:"سماعات",stock:20,icon:"🩺"},
+ {id:2,name:"سماعة طبية Cardio",description:"صوت أوضح للقلب والرئتين",price:35,category:"سماعات",stock:10,icon:"🩺"},
+ {id:3,name:"طقم تشريح أساسي",description:"مشرط، ملقط، مقص، مجسّ",price:12,category:"أدوات جراحية",stock:25,icon:"✂️"},
+ {id:4,name:"طقم خياطة تدريبي",description:"لتدريب الغرز مع قاعدة سيليكون",price:15,category:"أدوات جراحية",stock:15,icon:"🪡"},
+ {id:5,name:"مطرقة منعكسات",description:"مطرقة تايلور للفحص العصبي",price:4,category:"أدوات تشخيص",stock:40,icon:"🔨"},
+ {id:6,name:"مقياس ضغط يدوي",description:"جهاز ضغط يدوي مع كفة وسماعة",price:14,category:"أدوات تشخيص",stock:18,icon:"🩸"},
+ {id:7,name:"مصباح فحص جيب",description:"مصباح LED للفحص السريري",price:3,category:"أدوات تشخيص",stock:50,icon:"🔦"},
+ {id:8,name:"معطف مختبر",description:"قطن مريح، مقاسات S–XL",price:16,category:"معاطف ومستلزمات",stock:30,icon:"🥼"},
+ {id:9,name:"ميزان حرارة رقمي",description:"قراءة خلال ثوانٍ",price:5,category:"معاطف ومستلزمات",stock:35,icon:"🌡️"}
+];
+const ICONS={"سماعات":"🩺","أدوات جراحية":"✂️","أدوات تشخيص":"🔬","معاطف ومستلزمات":"🥼"};
+const $=s=>document.querySelector(s);
+const sb=(SUPABASE_URL&&SUPABASE_ANON_KEY&&window.supabase)?supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
+let products=[],cat="الكل",cart=JSON.parse(localStorage.getItem("lajneh-cart")||"{}");
+const money=n=>(+n).toLocaleString("ar-JO",{maximumFractionDigits:2})+" د.أ";
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+async function load(){
+  if(sb){const {data,error}=await sb.from("products").select("*").eq("active",true).order("id",{ascending:false});
+    products=error?DEMO:data}
+  else products=DEMO;
+  renderChips();render();renderCart();
+}
+function renderChips(){
+  const cats=["الكل",...new Set(products.map(p=>p.category))];
+  $("#chips").innerHTML=cats.map(c=>`<button class="chip" aria-pressed="${c===cat}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+}
+function render(){
+  const q=$("#q").value.trim().toLowerCase(),s=$("#sort").value;
+  let list=products.filter(p=>(cat==="الكل"||p.category===cat)&&(p.name+" "+(p.description||"")).toLowerCase().includes(q));
+  if(s)list.sort((a,b)=>s==="asc"?a.price-b.price:b.price-a.price);
+  $("#count").textContent=list.length+" منتج";
+  $("#grid").innerHTML=list.length?list.map(p=>`<article class="card">
+    <div class="thumb">${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy">`:(p.icon||ICONS[p.category]||"🩺")}<span class="tag">${esc(p.category)}</span></div>
+    <div class="body"><h3>${esc(p.name)}</h3><p>${esc(p.description)}</p>
+    <div class="row"><span class="price">${money(p.price)}</span><button class="add" data-id="${p.id}" ${p.stock>0?"":"disabled"}>${p.stock>0?"أضف للسلة":"نفدت الكمية"}</button></div></div></article>`).join("")
+    :`<div class="empty">لا توجد نتائج. جرّب كلمة أخرى أو اختر "الكل".</div>`;
+}
+function save(){localStorage.setItem("lajneh-cart",JSON.stringify(cart));renderCart()}
+function renderCart(){
+  const rows=Object.entries(cart).map(([id,q])=>({p:products.find(x=>x.id==id),q})).filter(r=>r.p);
+  $("#cnt").textContent=rows.reduce((a,r)=>a+r.q,0);
+  $("#total").textContent=money(rows.reduce((a,r)=>a+r.q*r.p.price,0));
+  $("#items").innerHTML=rows.length?rows.map(({p,q})=>`<div class="it"><div>${esc(p.name)}<br><small>${money(p.price)}</small></div>
+    <div class="qty"><button data-d="-1" data-id="${p.id}" aria-label="إنقاص">−</button><span>${q}</span><button data-d="1" data-id="${p.id}" aria-label="زيادة">+</button></div></div>`).join("")
+    :`<p class="empty" style="padding:40px 0">سلتك فارغة. أضف منتجاً لتبدأ.</p>`;
+}
+function toggle(o){$("#cart").classList.toggle("open",o);$("#scrim").classList.toggle("open",o);$("#cart").setAttribute("aria-hidden",!o)}
+$("#chips").onclick=e=>{const c=e.target.dataset.c;if(c){cat=c;renderChips();render()}};
+$("#q").oninput=render;$("#sort").onchange=render;
+$("#grid").onclick=e=>{const id=e.target.dataset.id;if(id){cart[id]=(cart[id]||0)+1;save();toggle(true)}};
+$("#items").onclick=e=>{const id=e.target.dataset.id,d=+e.target.dataset.d;if(id){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];save()}};
+$("#openCart").onclick=()=>toggle(true);$("#closeCart").onclick=$("#scrim").onclick=()=>toggle(false);
+document.onkeydown=e=>{if(e.key==="Escape")toggle(false)};
+$("#order").onsubmit=async e=>{
+  e.preventDefault();const f=new FormData(e.target),msg=$("#msg");
+  const items=Object.entries(cart).map(([id,q])=>{const p=products.find(x=>x.id==id);return p&&{id:p.id,name:p.name,price:p.price,qty:q}}).filter(Boolean);
+  if(!items.length){msg.textContent="أضف منتجاً واحداً على الأقل قبل الإرسال.";return}
+  const total=items.reduce((a,i)=>a+i.price*i.qty,0);
+  if(!sb){msg.textContent="وضع تجريبي: اربط Supabase ليُحفظ الطلب.";return}
+  const {error}=await sb.from("orders").insert({customer_name:f.get("name"),phone:f.get("phone"),items,total});
+  if(error){msg.textContent="تعذّر إرسال الطلب. حاول مرة أخرى.";return}
+  cart={};save();e.target.reset();msg.textContent="تم إرسال الطلب. سنتواصل معك قريباً.";
+};
+load();
+</script>
+</body>
+</html>
