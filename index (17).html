@@ -44,8 +44,8 @@ select{border:1px solid var(--line);border-radius:10px;padding:6px 10px;backgrou
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;padding-bottom:56px}
 .card{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;background:#fff;transition:transform .2s,box-shadow .2s}
 .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(67,82,92,.12)}
-.thumb{aspect-ratio:4/3;background:var(--mist);display:grid;place-items:center;font-size:54px;position:relative}
-.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb{aspect-ratio:4/3;background:#fff;border-bottom:1px solid var(--line);display:grid;place-items:center;font-size:54px;position:relative}
+.thumb img{width:100%;height:100%;object-fit:contain;padding:8px}
 .tag{position:absolute;top:10px;right:10px;background:#fff;border-radius:99px;font-size:12px;padding:0 10px;color:var(--slate)}
 .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
 .body h3{font-size:17px;font-weight:700}
@@ -122,22 +122,22 @@ footer{background:var(--mist);padding:28px 0;color:#62727b;font-size:14px;text-a
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-// ضع رابط مشروعك هنا (Project URL) بدل الرابط التالي
-const SUPABASE_URL = "https://PROJECT-ID.supabase.co";
+// بيانات مشروع Supabase (المفتاح publishable آمن للنشر)
+const SUPABASE_URL = "https://oldhmrnvrckwqrxymrsg.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_uia6Gci5kBnKlTqvXGELow_J-9tgFE0";
 
 const DEMO = [
- {id:1,name:"سماعة طبية Classic",description:"غشاء مزدوج للفحص السريري",price:18,category:"سماعات",stock:20,icon:"🩺"},
- {id:2,name:"سماعة طبية Cardio",description:"صوت أوضح للقلب والرئتين",price:35,category:"سماعات",stock:10,icon:"🩺"},
- {id:3,name:"طقم تشريح أساسي",description:"مشرط، ملقط، مقص، مجسّ",price:12,category:"أدوات جراحية",stock:25,icon:"✂️"},
- {id:4,name:"طقم خياطة تدريبي",description:"لتدريب الغرز مع قاعدة سيليكون",price:15,category:"أدوات جراحية",stock:15,icon:"🪡"},
- {id:5,name:"مطرقة منعكسات",description:"مطرقة تايلور للفحص العصبي",price:4,category:"أدوات تشخيص",stock:40,icon:"🔨"},
- {id:6,name:"مقياس ضغط يدوي",description:"جهاز ضغط يدوي مع كفة وسماعة",price:14,category:"أدوات تشخيص",stock:18,icon:"🩸"},
- {id:7,name:"مصباح فحص جيب",description:"مصباح LED للفحص السريري",price:3,category:"أدوات تشخيص",stock:50,icon:"🔦"},
- {id:8,name:"معطف مختبر",description:"قطن مريح، مقاسات S–XL",price:16,category:"معاطف ومستلزمات",stock:30,icon:"🥼"},
- {id:9,name:"ميزان حرارة رقمي",description:"قراءة خلال ثوانٍ",price:5,category:"معاطف ومستلزمات",stock:35,icon:"🌡️"}
+ {id:1,name:"سماعة طبية ADC Adscope 608",description:"رأس ستانلس ستيل وأنبوب أسود، مناسبة للفحص السريري",price:45,category:"سماعات",stock:15,image_url:"assets/products/adscope-stethoscope.jpg"},
+ {id:2,name:"سماعة طبية MDF",description:"تصميم أسود كامل بمظهر أنيق",price:60,category:"سماعات",stock:10,image_url:"assets/products/mdf-stethoscope.jpg"},
+ {id:3,name:"سماعة طبية Spirit Original",description:"رأس ستانلس ستيل وأنبوب أسود",price:25,category:"سماعات",stock:20,image_url:"assets/products/spirit-stethoscope.jpg"},
+ {id:4,name:"حقيبة سماعة طبية",description:"حقيبة حماية بسحاب وحزام، بتصميم نبض القلب",price:8,category:"مستلزمات",stock:25,image_url:"assets/products/stethoscope-case.jpg"},
+ {id:5,name:"مطرقة منعكسات",description:"مطرقة معدنية مع فرشاة وإبرة للفحص العصبي",price:6,category:"أدوات تشخيص",stock:30,image_url:"assets/products/reflex-hammer.jpg"},
+ {id:6,name:"متر قياس",description:"متر قابل للسحب بألوان متعددة",price:1.5,category:"مستلزمات",stock:60,image_url:"assets/products/tape-measure.jpg"},
+ {id:7,name:"تاغ نيم",description:"تاغ مطبوع بالاسم والجامعة حسب الطلب",price:3,category:"مستلزمات",stock:100,image_url:"assets/products/name-tag.jpg"},
+ {id:8,name:"عدة خياطة تدريبية STK-168",description:"قاعدة خياطة وأدوات وخيوط وشفرات وحقيبة حمل",price:25,category:"أدوات جراحية",stock:12,image_url:"assets/products/suture-kit.jpg"},
+ {id:9,name:"كتاب Macleod's Clinical Examination",description:"الطبعة 15، النسخة الدولية (International Edition)",price:30,category:"كتب",stock:8,image_url:"assets/products/macleods-book.jpg"}
 ];
-const ICONS={"سماعات":"🩺","أدوات جراحية":"✂️","أدوات تشخيص":"🔬","معاطف ومستلزمات":"🥼"};
+const ICONS={"سماعات":"🩺","أدوات جراحية":"✂️","أدوات تشخيص":"🔬","كتب":"📘","مستلزمات":"🎒"};
 const $=s=>document.querySelector(s);
 const sb=(SUPABASE_URL&&SUPABASE_ANON_KEY&&window.supabase)?supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
 let products=[],cat="الكل",cart=JSON.parse(localStorage.getItem("lajneh-cart")||"{}");
