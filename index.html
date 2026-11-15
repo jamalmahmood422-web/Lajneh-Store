@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lajneh Store | متجر لجنة الطب والجراحة</title>
-<link rel="icon" href="assets/lajneh-store-logo.svg">
+<link rel="icon" href="lajneh-store-logo.svg">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
 <style>
 :root{--cyan:#00AEEF;--cyan-d:#0089bd;--slate:#43525C;--ink:#27333a;--ash:#B3B3B3;--mist:#F2F7FA;--line:#dfe8ed;--r:14px}
@@ -83,8 +83,8 @@ footer{background:var(--mist);padding:28px 0;color:#62727b;font-size:14px;text-a
 <body>
 <header><div class="wrap">
   <a class="brand" href="./" aria-label="Lajneh Store">
-    <img src="assets/team-logo.png" alt="شعار لجنة الطب والجراحة"><span class="div"></span>
-    <img src="assets/lajneh-store-logo.svg" alt="Lajneh Store">
+    <img src="team-logo.png" alt="شعار لجنة الطب والجراحة"><span class="div"></span>
+    <img src="lajneh-store-logo.svg" alt="Lajneh Store">
   </a>
   <span class="grow"></span>
   <button class="cartbtn" id="openCart"><span>السلة</span><b id="cnt">0</b></button>
@@ -127,15 +127,15 @@ const SUPABASE_URL = "https://oldhmrnvrckwqrxymrsg.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_uia6Gci5kBnKlTqvXGELow_J-9tgFE0";
 
 const DEMO = [
- {id:1,name:"سماعة طبية ADC Adscope 608",description:"رأس ستانلس ستيل وأنبوب أسود، مناسبة للفحص السريري",price:45,category:"سماعات",stock:15,image_url:"assets/products/adscope-stethoscope.jpg"},
- {id:2,name:"سماعة طبية MDF",description:"تصميم أسود كامل بمظهر أنيق",price:60,category:"سماعات",stock:10,image_url:"assets/products/mdf-stethoscope.jpg"},
- {id:3,name:"سماعة طبية Spirit Original",description:"رأس ستانلس ستيل وأنبوب أسود",price:25,category:"سماعات",stock:20,image_url:"assets/products/spirit-stethoscope.jpg"},
- {id:4,name:"حقيبة سماعة طبية",description:"حقيبة حماية بسحاب وحزام، بتصميم نبض القلب",price:8,category:"مستلزمات",stock:25,image_url:"assets/products/stethoscope-case.jpg"},
- {id:5,name:"مطرقة منعكسات",description:"مطرقة معدنية مع فرشاة وإبرة للفحص العصبي",price:6,category:"أدوات تشخيص",stock:30,image_url:"assets/products/reflex-hammer.jpg"},
- {id:6,name:"متر قياس",description:"متر قابل للسحب بألوان متعددة",price:1.5,category:"مستلزمات",stock:60,image_url:"assets/products/tape-measure.jpg"},
- {id:7,name:"تاغ نيم",description:"تاغ مطبوع بالاسم والجامعة حسب الطلب",price:3,category:"مستلزمات",stock:100,image_url:"assets/products/name-tag.jpg"},
- {id:8,name:"عدة خياطة تدريبية STK-168",description:"قاعدة خياطة وأدوات وخيوط وشفرات وحقيبة حمل",price:25,category:"أدوات جراحية",stock:12,image_url:"assets/products/suture-kit.jpg"},
- {id:9,name:"كتاب Macleod's Clinical Examination",description:"الطبعة 15، النسخة الدولية (International Edition)",price:30,category:"كتب",stock:8,image_url:"assets/products/macleods-book.jpg"}
+ {id:1,name:"سماعة طبية ADC Adscope 608",description:"رأس ستانلس ستيل وأنبوب أسود، مناسبة للفحص السريري",price:45,category:"سماعات",stock:15,image_url:"adscope-stethoscope.jpg"},
+ {id:2,name:"سماعة طبية MDF",description:"تصميم أسود كامل بمظهر أنيق",price:60,category:"سماعات",stock:10,image_url:"mdf-stethoscope.jpg"},
+ {id:3,name:"سماعة طبية Spirit Original",description:"رأس ستانلس ستيل وأنبوب أسود",price:25,category:"سماعات",stock:20,image_url:"spirit-stethoscope.jpg"},
+ {id:4,name:"حقيبة سماعة طبية",description:"حقيبة حماية بسحاب وحزام، بتصميم نبض القلب",price:8,category:"مستلزمات",stock:25,image_url:"stethoscope-case.jpg"},
+ {id:5,name:"مطرقة منعكسات",description:"مطرقة معدنية مع فرشاة وإبرة للفحص العصبي",price:6,category:"أدوات تشخيص",stock:30,image_url:"reflex-hammer.jpg"},
+ {id:6,name:"متر قياس",description:"متر قابل للسحب بألوان متعددة",price:1.5,category:"مستلزمات",stock:60,image_url:"tape-measure.jpg"},
+ {id:7,name:"تاغ نيم",description:"تاغ مطبوع بالاسم والجامعة حسب الطلب",price:3,category:"مستلزمات",stock:100,image_url:"name-tag.jpg"},
+ {id:8,name:"عدة خياطة تدريبية STK-168",description:"قاعدة خياطة وأدوات وخيوط وشفرات وحقيبة حمل",price:25,category:"أدوات جراحية",stock:12,image_url:"suture-kit.jpg"},
+ {id:9,name:"كتاب Macleod's Clinical Examination",description:"الطبعة 15، النسخة الدولية (International Edition)",price:30,category:"كتب",stock:8,image_url:"macleods-book.jpg"}
 ];
 const ICONS={"سماعات":"🩺","أدوات جراحية":"✂️","أدوات تشخيص":"🔬","كتب":"📘","مستلزمات":"🎒"};
 const $=s=>document.querySelector(s);
